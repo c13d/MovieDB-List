@@ -101,11 +101,15 @@ class TrailerMovieTile: UIView {
     }
     
     private func configure(){
+        
         viewModel?.youtubeVideos.subscribe(onNext: { [weak self] videos in
             print("DEBUG: Video \(videos)")
             print("DEBUG: PLAYED \(videos[0].key)")
-            self!.youtubePlayer.load(withVideoId: videos[0].key)
+            self?.youtubePlayer.load(withVideoId: videos[0].key)
         }).disposed(by: disposeBag)
         viewModel?.fetchYoutubeVideos()
+        
+        
+        
     }
 }

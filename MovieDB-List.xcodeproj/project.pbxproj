@@ -16,6 +16,8 @@
 		F00C0ED029A8A64A00FCD16E /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C0ECF29A8A64A00FCD16E /* Video.swift */; };
 		F00C0ED229A8AD1F00FCD16E /* TrailerMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C0ED129A8AD1F00FCD16E /* TrailerMovieViewModel.swift */; };
 		F00C0ED429A8B50300FCD16E /* ReviewModelTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C0ED329A8B50300FCD16E /* ReviewModelTile.swift */; };
+		F00C0ED629A8B94900FCD16E /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C0ED529A8B94900FCD16E /* ReviewCell.swift */; };
+		F00C0ED829A8B96800FCD16E /* ProfilePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C0ED729A8B96800FCD16E /* ProfilePictureView.swift */; };
 		F08464DA29A7931800B6932A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08464D929A7931800B6932A /* AppDelegate.swift */; };
 		F08464DC29A7931800B6932A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08464DB29A7931800B6932A /* SceneDelegate.swift */; };
 		F08464DE29A7931800B6932A /* ListMovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08464DD29A7931800B6932A /* ListMovieController.swift */; };
@@ -60,6 +62,8 @@
 		F00C0ECF29A8A64A00FCD16E /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		F00C0ED129A8AD1F00FCD16E /* TrailerMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerMovieViewModel.swift; sourceTree = "<group>"; };
 		F00C0ED329A8B50300FCD16E /* ReviewModelTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModelTile.swift; sourceTree = "<group>"; };
+		F00C0ED529A8B94900FCD16E /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		F00C0ED729A8B96800FCD16E /* ProfilePictureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePictureView.swift; sourceTree = "<group>"; };
 		F08464D629A7931800B6932A /* MovieDB-List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MovieDB-List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F08464D929A7931800B6932A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F08464DB29A7931800B6932A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -198,8 +202,10 @@
 		F084650B29A7940500B6932A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F084650F29A7959800B6932A /* ListMovieCell.swift */,
 				F00C0ECB29A863B400FCD16E /* InfoMovieView.swift */,
+				F00C0ED729A8B96800FCD16E /* ProfilePictureView.swift */,
+				F084650F29A7959800B6932A /* ListMovieCell.swift */,
+				F00C0ED529A8B94900FCD16E /* ReviewCell.swift */,
 				F00C0EC529A84DB400FCD16E /* InfoMovieTile.swift */,
 				F00C0ECD29A89D2200FCD16E /* TrailerMovieTile.swift */,
 				F00C0ED329A8B50300FCD16E /* ReviewModelTile.swift */,
@@ -415,6 +421,7 @@
 				F084651429A7A15A00B6932A /* MovieService.swift in Sources */,
 				F08464DE29A7931800B6932A /* ListMovieController.swift in Sources */,
 				F08464DA29A7931800B6932A /* AppDelegate.swift in Sources */,
+				F00C0ED629A8B94900FCD16E /* ReviewCell.swift in Sources */,
 				F00C0ED029A8A64A00FCD16E /* Video.swift in Sources */,
 				F084651029A7959800B6932A /* ListMovieCell.swift in Sources */,
 				F00C0EC629A84DB400FCD16E /* InfoMovieTile.swift in Sources */,
@@ -425,6 +432,7 @@
 				F00C0ECC29A863B400FCD16E /* InfoMovieView.swift in Sources */,
 				F084651629A7A47500B6932A /* TopRated.swift in Sources */,
 				F084651829A7B07400B6932A /* ListMovieCellViewModel.swift in Sources */,
+				F00C0ED829A8B96800FCD16E /* ProfilePictureView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

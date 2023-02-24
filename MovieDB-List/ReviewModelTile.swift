@@ -23,7 +23,6 @@ class ReviewMovieTile: UIView {
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         label.text = "Review"
         
         return label
@@ -31,10 +30,11 @@ class ReviewMovieTile: UIView {
     
     let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        let height = UIScreen.main.bounds.height
         
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.heightAnchor.constraint(equalToConstant: 300)
+            tableView.heightAnchor.constraint(equalToConstant: height - 200)
         ])
         
         return tableView
@@ -80,23 +80,18 @@ class ReviewMovieTile: UIView {
     }
     
     private func configureUI(){
-        
-        let stack = UIStackView(arrangedSubviews: [titleLabel, tableView])
-        
-        stack.axis = .vertical
-        stack.distribution = .fillProportionally
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.spacing = 16
-        stack.alignment = .leading
-        
-        addSubview(stack)
-        
+        addSubview(titleLabel)
+        addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
     }
     

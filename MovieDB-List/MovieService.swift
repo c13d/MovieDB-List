@@ -89,4 +89,8 @@ struct MovieService{
         }
     }
     
+    func downloadReview(page:Int, movieId: Int){
+        
+    }
+    
 }

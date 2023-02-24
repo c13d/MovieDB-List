@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class DetailMovieController: UIViewController{
     
     // MARK: Properties
+    let disposeBag = DisposeBag()
     private let viewModel: ListMovieCellViewModel
     
     private let infoMovieTile = InfoMovieTile()
@@ -26,7 +29,7 @@ class DetailMovieController: UIViewController{
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 16
+        stack.spacing = 8
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -41,18 +44,29 @@ class DetailMovieController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
         infoMovieTile.viewModel = viewModel
         trailerMovieTile.viewModel = TrailerMovieViewModel(movieId: viewModel.movie.id)
         
-
         
         tiles.append(infoMovieTile)
         tiles.append(trailerMovieTile)
         tiles.append(reviewMovieTile)
         
         configureUI()
+        configureTableView()
+    }
+    
+    func configureTableView(){
+        reviewMovieTile.tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCell.reuseIdentifier)
+        reviewMovieTile.tableView.estimatedRowHeight = ReviewCell.rowHeight
+        
+        let reviews = BehaviorRelay<[String]>(value: [])
+        
+        reviews.asObservable().bind(to: reviewMovieTile.tableView.rx.items(cellIdentifier: ReviewCell.reuseIdentifier, cellType: ReviewCell.self)){ index, element, cell in
+            
+        }.disposed(by: disposeBag)
+        
+        reviews.accept(["1","2","3","3","3","3","3","3","3"])
     }
     
     required init?(coder: NSCoder) {
