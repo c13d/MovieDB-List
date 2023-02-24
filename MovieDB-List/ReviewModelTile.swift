@@ -1,5 +1,5 @@
 //
-//  TrailerMovieTile.swift
+//  ReviewModelTile.swift
 //  MovieDB-List
 //
 //  Created by Christophorus Davin on 24/02/23.
@@ -7,10 +7,9 @@
 
 import UIKit
 import RxSwift
-import youtube_ios_player_helper
 
-class TrailerMovieTile: UIView {
-    
+class ReviewMovieTile: UIView {
+
     // MARK: - Properties
     let disposeBag = DisposeBag()
     var viewModel: TrailerMovieViewModel? {
@@ -25,21 +24,22 @@ class TrailerMovieTile: UIView {
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.text = "Trailer"
+        label.text = "Review"
         
         return label
     }()
     
-    let youtubePlayer: YTPlayerView = {
-        let player = YTPlayerView()
-        let width = UIScreen.main.bounds.width
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        player.translatesAutoresizingMaskIntoConstraints = false
-        player.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        player.widthAnchor.constraint(equalToConstant: width).isActive = true
-        return player
+        NSLayoutConstraint.activate([
+            tableView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+        
+        return tableView
     }()
-        
+    
     override var intrinsicContentSize: CGSize{
         return CGSize(width: 100, height: 200)
     }
@@ -81,7 +81,7 @@ class TrailerMovieTile: UIView {
     
     private func configureUI(){
         
-        let stack = UIStackView(arrangedSubviews: [titleLabel, youtubePlayer])
+        let stack = UIStackView(arrangedSubviews: [titleLabel, tableView])
         
         stack.axis = .vertical
         stack.distribution = .fillProportionally
@@ -101,11 +101,6 @@ class TrailerMovieTile: UIView {
     }
     
     private func configure(){
-        viewModel?.youtubeVideos.subscribe(onNext: { [weak self] videos in
-            print("DEBUG: Video \(videos)")
-            print("DEBUG: PLAYED \(videos[0].key)")
-            self!.youtubePlayer.load(withVideoId: videos[0].key)
-        }).disposed(by: disposeBag)
-        viewModel?.fetchYoutubeVideos()
+      
     }
 }

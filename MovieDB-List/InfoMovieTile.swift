@@ -69,12 +69,6 @@ class InfoMovieTile: UIView {
         return label
     }()
     
-    
-    
-    private var shadowLayer: CAShapeLayer!
-    private var cornerRadius: CGFloat = 6
-    private var fillColor: UIColor = .white
-    
     override var intrinsicContentSize: CGSize{
         return CGSize(width: 100, height: 200)
     }
@@ -97,6 +91,9 @@ class InfoMovieTile: UIView {
 
     // MARK: - Helpers
     private func addShadow(){
+        var shadowLayer: CAShapeLayer!
+        let cornerRadius: CGFloat = 6
+        let fillColor: UIColor = .white
         shadowLayer = CAShapeLayer()
         
         shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath

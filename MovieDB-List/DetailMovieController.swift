@@ -12,6 +12,10 @@ class DetailMovieController: UIViewController{
     // MARK: Properties
     private let viewModel: ListMovieCellViewModel
     
+    private let infoMovieTile = InfoMovieTile()
+    private let trailerMovieTile = TrailerMovieTile()
+    private let reviewMovieTile = ReviewMovieTile()
+    
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.showsVerticalScrollIndicator = false
@@ -28,8 +32,6 @@ class DetailMovieController: UIViewController{
     }()
     
     var tiles = [UIView]()
-
-
     
     // MARK: Lifecycle
     init(viewModel: ListMovieCellViewModel){
@@ -40,14 +42,15 @@ class DetailMovieController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let infoMovieTile = InfoMovieTile()
+
         infoMovieTile.viewModel = viewModel
-        
-        let trailerMovieTile = TrailerMovieTile()
         trailerMovieTile.viewModel = TrailerMovieViewModel(movieId: viewModel.movie.id)
+        
+
         
         tiles.append(infoMovieTile)
         tiles.append(trailerMovieTile)
+        tiles.append(reviewMovieTile)
         
         configureUI()
     }
