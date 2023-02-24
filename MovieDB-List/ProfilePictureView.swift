@@ -28,6 +28,8 @@ class ProfilePictureView: UIView{
         super.init(frame: frame)
         backgroundColor = .gray
         configureUI()
+        
+        
     }
     
     required init?(coder: NSCoder) {
