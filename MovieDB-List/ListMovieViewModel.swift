@@ -14,14 +14,17 @@ class ListMovieViewModel{
     let disposeBag = DisposeBag()
     let movieService = MovieService.shared
     
-    var movies = BehaviorRelay<[TopRatedResult]>(value: [])
+    let movies = BehaviorRelay<[TopRatedResult]>(value: [])
+    let spinnerIsActive = BehaviorSubject<Bool>(value: false)
+    let showErrorLabel = BehaviorSubject<Bool>(value: false)
+    
     var pageCounter = 0
     var isFetchingData = false
     
     var genres = [GenreResult]()
     
     init(){
-        fetchGenresAndMovie()
+        
     }
     
     func fetchMoreMovie(){
@@ -40,6 +43,7 @@ class ListMovieViewModel{
                 self.movies.accept(tempResult)
             case .error(let error):
                 print(error)
+                self.showErrorLabel.onNext(true)
                 self.isFetchingData = false
             case .completed:
                 self.isFetchingData = false
@@ -48,18 +52,22 @@ class ListMovieViewModel{
         }.disposed(by: disposeBag)
     }
     
-    private func fetchGenresAndMovie(){
-        
+    func fetchGenresAndMovie(){
         pageCounter = 0
+        movies.accept([])
+        spinnerIsActive.onNext(true)
         MovieService.shared.downloadGenres().subscribe { event in
             switch event{
             case .next(let genres):
+                self.showErrorLabel.onNext(false)
                 self.genres = genres.genres
                 self.fetchMoreMovie()
             case .error(let error):
-                print(error)
+                print("\(error)")
+                self.spinnerIsActive.onNext(false)
+                self.showErrorLabel.onNext(true)
             case .completed:
-                print("completed download genres")
+                self.spinnerIsActive.onNext(false)
             }
         }.disposed(by: disposeBag)
     }
