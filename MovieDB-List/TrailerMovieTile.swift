@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import youtube_ios_player_helper
+import RxRelay
 
 class TrailerMovieTile: UIView {
     
@@ -30,16 +31,24 @@ class TrailerMovieTile: UIView {
         return label
     }()
     
-    let youtubePlayer: YTPlayerView = {
-        let player = YTPlayerView()
+    let collectionView: UICollectionView = {
         let width = UIScreen.main.bounds.width
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.estimatedItemSize = CGSize(width: width, height: 200)
         
-        player.translatesAutoresizingMaskIntoConstraints = false
-        player.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        player.widthAnchor.constraint(equalToConstant: width).isActive = true
-        return player
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(YtPlayerCell.self, forCellWithReuseIdentifier: YtPlayerCell.reuseIdentifier)
+        cv.backgroundColor = .white
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cv.widthAnchor.constraint(equalToConstant: width),
+            cv.heightAnchor.constraint(equalToConstant: 200)
+        ])
+        
+        return cv
     }()
-        
+            
     override var intrinsicContentSize: CGSize{
         return CGSize(width: 100, height: 200)
     }
@@ -80,8 +89,7 @@ class TrailerMovieTile: UIView {
     }
     
     private func configureUI(){
-        
-        let stack = UIStackView(arrangedSubviews: [titleLabel, youtubePlayer])
+        let stack = UIStackView(arrangedSubviews: [titleLabel, collectionView])
         
         stack.axis = .vertical
         stack.distribution = .fillProportionally
@@ -101,17 +109,14 @@ class TrailerMovieTile: UIView {
     }
     
     private func configure(){
+        guard let viewModel = viewModel else { return }
         
-        viewModel?.youtubeVideos.subscribe(onNext: { [weak self] videos in
-            print("DEBUG: Video \(videos)")
-            print("DEBUG: PLAYED \(videos[0].key)")
-            DispatchQueue.main.async {
-                self?.youtubePlayer.load(withVideoId: videos[0].key)
+        viewModel.youtubeVideos.asObservable().bind(to: collectionView.rx.items(cellIdentifier: YtPlayerCell.reuseIdentifier, cellType: YtPlayerCell.self)){ index, element, cell in
+            if cell.videoId == nil{
+                cell.videoId = element
             }
-        }).disposed(by: disposeBag)
-        viewModel?.fetchYoutubeVideos()
+        }.disposed(by: disposeBag)
         
-        
-        
+        viewModel.fetchYoutubeVideos()
     }
 }

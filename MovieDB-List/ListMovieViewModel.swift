@@ -49,6 +49,8 @@ class ListMovieViewModel{
     }
     
     private func fetchGenresAndMovie(){
+        
+        pageCounter = 0
         MovieService.shared.downloadGenres().subscribe { event in
             switch event{
             case .next(let genres):

@@ -44,49 +44,30 @@ class DetailMovieController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        infoMovieTile.viewModel = viewModel
-        trailerMovieTile.viewModel = TrailerMovieViewModel(movieId: viewModel.movie.id)
         
+        
+        let trailerMoviewViewModel = TrailerMovieViewModel(movieId: viewModel.movie.id)
+        let reviewMovieViewModel = ReviewMovieViewModel(movieId: viewModel.movie.id)
+        reviewMovieViewModel.reviewIsEmpty.subscribe { isEmpty in
+            if isEmpty{
+                self.reviewMovieTile.isHidden = true
+            }else{
+                self.reviewMovieTile.isHidden = false
+            }
+        }.disposed(by: disposeBag)
+        
+        infoMovieTile.viewModel = viewModel
+        trailerMovieTile.viewModel = trailerMoviewViewModel
+        reviewMovieTile.viewModel = reviewMovieViewModel
         
         tiles.append(infoMovieTile)
         tiles.append(trailerMovieTile)
         tiles.append(reviewMovieTile)
         
         configureUI()
-        configureTableView()
     }
     
-    func configureTableView(){
-        reviewMovieTile.tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCell.reuseIdentifier)
-        reviewMovieTile.tableView.estimatedRowHeight = ReviewCell.rowHeight
-        
-        let reviews = BehaviorRelay<[Review]>(value: [])
-        
-        reviews.asObservable().bind(to: reviewMovieTile.tableView.rx.items(cellIdentifier: ReviewCell.reuseIdentifier, cellType: ReviewCell.self)){ index, element, cell in
-            cell.review = element
-        }.disposed(by: disposeBag)
-        
-        MovieService.shared.downloadReview(page: 1, movieId: viewModel.movie.id).subscribe { [weak self] event in
-            switch event{
-            case .next(let movies):
-                var tempResult = reviews.value
-                tempResult += movies.results
-                reviews.accept(tempResult)
-                print("no data 1")
-            case .error(_):
-                print("no data 2")
-                break
-            case .completed:
-                if reviews.value.isEmpty {
-                    self?.reviewMovieTile.isHidden = true
-                }else{
-                    self?.reviewMovieTile.isHidden = false
-                }
-                break
-            }
-        }.disposed(by: disposeBag)
-        
-    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

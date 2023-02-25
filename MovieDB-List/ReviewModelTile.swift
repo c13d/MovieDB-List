@@ -12,7 +12,7 @@ class ReviewMovieTile: UIView {
 
     // MARK: - Properties
     let disposeBag = DisposeBag()
-    var viewModel: TrailerMovieViewModel? {
+    var viewModel: ReviewMovieViewModel? {
         didSet {
             configure()
         }
@@ -37,7 +37,23 @@ class ReviewMovieTile: UIView {
             tableView.heightAnchor.constraint(equalToConstant: height - 200)
         ])
         
+        tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCell.reuseIdentifier)
+        tableView.estimatedRowHeight = ReviewCell.rowHeight
+        
         return tableView
+    }()
+    
+    lazy var stack: UIStackView = {
+        let height = UIScreen.main.bounds.height
+        
+        let stack = UIStackView(arrangedSubviews: [titleLabel, tableView])
+        stack.spacing = 16
+        stack.axis = .vertical
+        stack.distribution = .fillProportionally
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.heightAnchor.constraint(equalToConstant: height - 170).isActive = true
+        
+        return stack
     }()
     
     override var intrinsicContentSize: CGSize{
@@ -80,22 +96,23 @@ class ReviewMovieTile: UIView {
     }
     
     private func configureUI(){
-        addSubview(titleLabel)
-        addSubview(tableView)
+        addSubview(stack)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            stack.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
     private func configure(){
-      
+        guard let viewModel = viewModel else { return }
+        
+        viewModel.reviews.asObservable().bind(to: tableView.rx.items(cellIdentifier: ReviewCell.reuseIdentifier, cellType: ReviewCell.self)){ index, element, cell in
+            cell.review = element
+        }.disposed(by: disposeBag)
+        
+        viewModel.fetchReviews()
     }
 }
