@@ -48,7 +48,7 @@ struct ReviewCellViewModel {
         formatter.unitsStyle = .full
         let relativeDate = formatter.localizedString(for: date, relativeTo: Date.now)
         
-        return relativeDate == "in 0 seconds" ? "now" : relativeDate
+        return relativeDate
     }
     
     
