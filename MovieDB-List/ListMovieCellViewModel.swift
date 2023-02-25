@@ -14,7 +14,6 @@ struct ListMovieCellViewModel{
     let movie: TopRatedResult
     let allGenres: [GenreResult]
     
-    
     var title: String{
         return movie.title.uppercased()
     }
@@ -28,6 +27,9 @@ struct ListMovieCellViewModel{
         return "https://image.tmdb.org/t/p/w342/" + movie.poster_path
     }
     
+    var ages: String{
+        return movie.adult ? "D 18+" : "R 13+"
+    }
     
     
     init(movie: TopRatedResult, allGenres: [GenreResult]) {

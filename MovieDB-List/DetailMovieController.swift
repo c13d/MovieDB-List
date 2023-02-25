@@ -60,13 +60,32 @@ class DetailMovieController: UIViewController{
         reviewMovieTile.tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCell.reuseIdentifier)
         reviewMovieTile.tableView.estimatedRowHeight = ReviewCell.rowHeight
         
-        let reviews = BehaviorRelay<[String]>(value: [])
+        let reviews = BehaviorRelay<[Review]>(value: [])
         
         reviews.asObservable().bind(to: reviewMovieTile.tableView.rx.items(cellIdentifier: ReviewCell.reuseIdentifier, cellType: ReviewCell.self)){ index, element, cell in
-            
+            cell.review = element
         }.disposed(by: disposeBag)
         
-        reviews.accept(["1","2","3","3","3","3","3","3","3"])
+        MovieService.shared.downloadReview(page: 1, movieId: viewModel.movie.id).subscribe { [weak self] event in
+            switch event{
+            case .next(let movies):
+                var tempResult = reviews.value
+                tempResult += movies.results
+                reviews.accept(tempResult)
+                print("no data 1")
+            case .error(_):
+                print("no data 2")
+                break
+            case .completed:
+                if reviews.value.isEmpty {
+                    self?.reviewMovieTile.isHidden = true
+                }else{
+                    self?.reviewMovieTile.isHidden = false
+                }
+                break
+            }
+        }.disposed(by: disposeBag)
+        
     }
     
     required init?(coder: NSCoder) {

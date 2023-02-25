@@ -89,8 +89,28 @@ struct MovieService{
         }
     }
     
-    func downloadReview(page:Int, movieId: Int){
-        
+    func downloadReview(page:Int, movieId: Int) -> Observable<ReviewResult>{
+        return Observable<ReviewResult>.create { observer in
+            let url = "https://api.themoviedb.org/3/movie/\(movieId)/reviews?api_key=6c489b7a4ed215ea82009dbe1ea15061&language=en-US&page=\(page)"
+            let request = AF.request(url).response { response in
+                switch response.result{
+                case .success(let data):
+                    do{
+                        let jsonData = try JSONDecoder().decode(ReviewResult.self, from: data!)
+                        observer.onNext(jsonData)
+                        observer.onCompleted()
+                    }catch{
+                        observer.onError(NetworkError.DecodeFailed)
+                    }
+                case .failure(_):
+                    observer.onError(NetworkError.NetworkFailed)
+                }
+            }
+            
+            return Disposables.create{
+                request.cancel()
+            }
+        }
     }
     
 }

@@ -67,6 +67,8 @@ class ListMovieCell: UITableViewCell {
         
         infoMovieView.titleLabel.text = viewModel.title
         infoMovieView.genreLabel.text = viewModel.genres
+        infoMovieView.ageLabel.text = viewModel.ages
         infoMovieView.posterImageView.sd_setImage(with: URL(string: viewModel.imageUrl), placeholderImage: nil, context: [.imageTransformer: transformer])
+        
     }
 }

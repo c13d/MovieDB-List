@@ -105,7 +105,9 @@ class TrailerMovieTile: UIView {
         viewModel?.youtubeVideos.subscribe(onNext: { [weak self] videos in
             print("DEBUG: Video \(videos)")
             print("DEBUG: PLAYED \(videos[0].key)")
-            self?.youtubePlayer.load(withVideoId: videos[0].key)
+            DispatchQueue.main.async {
+                self?.youtubePlayer.load(withVideoId: videos[0].key)
+            }
         }).disposed(by: disposeBag)
         viewModel?.fetchYoutubeVideos()
         

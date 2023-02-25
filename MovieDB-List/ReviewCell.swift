@@ -13,6 +13,12 @@ import RxCocoa
 class ReviewCell: UITableViewCell {
     
     // MARK: - Properties
+    var review: Review? {
+        didSet{
+            configure()
+        }
+    }
+    
     var disposeBag = DisposeBag()
     static let reuseIdentifier = "ReviewCell"
     static let rowHeight: CGFloat = 50
@@ -75,9 +81,25 @@ class ReviewCell: UITableViewCell {
     
     // MARK: - Helper
     func configure(){
-        nameLabel.text = "Christophorus Davin"
-        reviewLabel.text = "Good movie Good movie Good movie Good movie Good movie Good movie Good movie Good movie Good movie"
-        profilePictureView.configure(text: "CD")
+        
+        guard let review = review else { return }
+        
+        nameLabel.text = review.author
+        reviewLabel.text = review.content
+        
+        let fullName = review.author
+        let fullNameExtract = fullName.components(separatedBy: " ")
+        
+        if fullNameExtract.count == 1 {
+            let left =  Array(fullName)[0]
+            let right = Array(fullName)[1]
+            profilePictureView.configure(text: "\(left)\(right)")
+            return
+        }
+        
+        let left =  Array(fullNameExtract[0])[0]
+        let right = Array(fullNameExtract[1])[0]
+        profilePictureView.configure(text: "\(left)\(right)")
     }
     
     func getRelativeDate(date: Date) -> String{
