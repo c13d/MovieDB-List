@@ -23,10 +23,6 @@ class ListMovieViewModel{
     
     var genres = [GenreResult]()
     
-    init(){
-        
-    }
-    
     func fetchMoreMovie(){
         if genres.count == 0 { return }
         if isFetchingData == true {return}
