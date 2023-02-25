@@ -13,7 +13,7 @@ import RxCocoa
 class ReviewCell: UITableViewCell {
     
     // MARK: - Properties
-    var review: Review? {
+    var viewModel: ReviewCellViewModel? {
         didSet{
             configure()
         }
@@ -81,33 +81,12 @@ class ReviewCell: UITableViewCell {
     
     // MARK: - Helper
     func configure(){
+        guard let viewModel = viewModel else { return }
         
-        guard let review = review else { return }
-        
-        nameLabel.text = review.author
-        reviewLabel.text = review.content
-        
-        let fullName = review.author
-        let fullNameExtract = fullName.components(separatedBy: " ")
-        
-        if fullNameExtract.count == 1 {
-            let left =  Array(fullName)[0]
-            let right = Array(fullName)[1]
-            profilePictureView.configure(text: "\(left)\(right)")
-            return
-        }
-        
-        let left =  Array(fullNameExtract[0])[0]
-        let right = Array(fullNameExtract[1])[0]
-        profilePictureView.configure(text: "\(left)\(right)")
-    }
-    
-    func getRelativeDate(date: Date) -> String{
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .full
-        let relativeDate = formatter.localizedString(for: date, relativeTo: Date.now)
-        
-        return relativeDate == "in 0 seconds" ? "now" : relativeDate
+        nameLabel.text = viewModel.review.author
+        reviewLabel.text = viewModel.review.content
+        dateAddedLabel.text = viewModel.relativeDate
+        profilePictureView.text =  viewModel.profilePictureText
     }
     
     private func configureUI(){

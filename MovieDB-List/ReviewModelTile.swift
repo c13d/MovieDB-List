@@ -110,7 +110,7 @@ class ReviewMovieTile: UIView {
         guard let viewModel = viewModel else { return }
         
         viewModel.reviews.asObservable().bind(to: tableView.rx.items(cellIdentifier: ReviewCell.reuseIdentifier, cellType: ReviewCell.self)){ index, element, cell in
-            cell.review = element
+            cell.viewModel = ReviewCellViewModel(review: element)
         }.disposed(by: disposeBag)
         
         viewModel.fetchReviews()

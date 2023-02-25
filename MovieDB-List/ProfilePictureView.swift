@@ -10,6 +10,12 @@ import UIKit
 class ProfilePictureView: UIView{
     
     // MARK: - Properties
+    var text: String? {
+        didSet{
+            configure()
+        }
+    }
+    
     let profilePictureNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -28,8 +34,6 @@ class ProfilePictureView: UIView{
         super.init(frame: frame)
         backgroundColor = .gray
         configureUI()
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -54,7 +58,7 @@ class ProfilePictureView: UIView{
         ])
     }
     
-    func configure(text: String){
+    func configure(){
         profilePictureNameLabel.text = text
     }
 }
