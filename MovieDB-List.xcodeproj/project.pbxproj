@@ -149,6 +149,8 @@
 		F00C0EE029A9E44F00FCD16E /* Tile */ = {
 			isa = PBXGroup;
 			children = (
+				F00C0EC529A84DB400FCD16E /* InfoMovieTile.swift */,
+				F00C0ECD29A89D2200FCD16E /* TrailerMovieTile.swift */,
 				F00C0ED329A8B50300FCD16E /* ReviewModelTile.swift */,
 			);
 			name = Tile;
@@ -189,8 +191,6 @@
 			isa = PBXGroup;
 			children = (
 				F00C0EE029A9E44F00FCD16E /* Tile */,
-				F00C0EC529A84DB400FCD16E /* InfoMovieTile.swift */,
-				F00C0ECD29A89D2200FCD16E /* TrailerMovieTile.swift */,
 				F00C0EDF29A9E43D00FCD16E /* Cell */,
 				F00C0ECB29A863B400FCD16E /* InfoMovieView.swift */,
 				F00C0ED729A8B96800FCD16E /* ProfilePictureView.swift */,
